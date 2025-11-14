@@ -4,7 +4,6 @@ from utility.models import BaseModel
 
 User = get_user_model()
 
-
 class Teacher(BaseModel):
     GENDER_CHOICES = [
         ('male', 'Male'),
@@ -20,6 +19,23 @@ class Teacher(BaseModel):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='teachers'
+    )
+
+    designation = models.ForeignKey(
+        Designation,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='teachers'
+    )
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     dob = models.DateField(blank=True, null=True)
@@ -27,7 +43,7 @@ class Teacher(BaseModel):
     employee_code = models.CharField(max_length=50, unique=True)
     experience_years = models.PositiveIntegerField(default=0)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    emergency_contact_number =  models.CharField(max_length=20, blank=True, null=True)
+    emergency_contact_number = models.CharField(max_length=20, blank=True, null=True)
     email_institutional = models.EmailField(max_length=150, unique=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     profile_picture = models.CharField(max_length=255, blank=True, null=True)
